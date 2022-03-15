@@ -14,6 +14,10 @@ jobs:
 
     timeout-minutes: 240
     steps:
+      - name: package
+        run: |
+          sudo apt-get install -y autoconf cmake gcc g++ gfortran ninja-build
+      
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
