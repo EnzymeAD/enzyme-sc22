@@ -3,7 +3,7 @@ on:
   pull_request:
   push:
 jobs:
-  test:
+  build:
     name: C++ BUDE
     runs-on: ${{ matrix.os }}
     strategy:
@@ -11,6 +11,8 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
+
+    timeout-minutes: 240
     steps:
       - uses: actions/checkout@v2
 	fetch-depth: 1

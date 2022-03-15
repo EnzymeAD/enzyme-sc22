@@ -3,7 +3,7 @@ on:
   pull_request:
   push:
 jobs:
-  test:
+  build:
     name: BUDE.jl
     runs-on: ${{ matrix.os }}
     strategy:
