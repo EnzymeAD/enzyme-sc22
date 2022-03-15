@@ -1,0 +1,40 @@
+name: LULESH.jl CI
+on:
+  pull_request:
+  push:
+jobs:
+  build:
+    name: LULESH.jl
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - '1.7'
+        os:
+          - ubuntu-latest
+        arch:
+          - x64
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          submodules: 'recursive'
+      - uses: julia-actions/setup-julia@v1
+        with:
+          version: ${{ matrix.version }}
+          arch: ${{ matrix.arch }}
+      
+      - uses: julia-actions/julia-buildpkg@v1
+        with:
+          project: LULESH.jl
+      
+      - uses: julia-actions/julia-runtest@v1
+        with:
+          project: LULESH.jl
+      
+      - uses: julia-actions/julia-runtest@v1
+        with:
+          project: LULESH.jl
+        env:
+          ENZYME_CI: true
