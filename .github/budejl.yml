@@ -1,0 +1,34 @@
+name: BUDE.jl CI
+on:
+  pull_request:
+  push:
+jobs:
+  test:
+    name: BUDE.jl
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - '1.6'
+          - '1.7'
+          - '~1.8.0-0'
+          - 'nightly'
+        os:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+        arch:
+          - x64
+    steps:
+      - uses: actions/checkout@v2
+      - uses: julia-actions/setup-julia@v1
+        with:
+          version: ${{ matrix.version }}
+          arch: ${{ matrix.arch }}
+      - name: test
+      - run: |
+          cd BUDE/miniBUDE.jl
+          julia --project=Threading -e 'using Pkg; Pkg.build(); Pkg.add("Enzyme#main")'
+          julia --project=Threading src/Threading.jl
+          julia --project=Threading src/Threading.jl --enzyme 1
