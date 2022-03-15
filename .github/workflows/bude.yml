@@ -1,0 +1,48 @@
+name: C++ BUDE CI
+on:
+  pull_request:
+  push:
+jobs:
+  test:
+    name: C++ BUDE
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+	fetch-depth: 1
+        submodules: 'recursive'
+
+      - name: Cache LLVM
+        id: cache-llvm
+        uses: actions/cache@v2
+        with:
+          path: llvm-project/build
+          key: ${{ hashFiles('llvm-project/.git/modules/llvm-project/HEAD') }}
+
+      - name: LLVM build
+        if: steps.cache-llvm.outputs.cache-hit != 'true'
+        run: |
+          cd llvm-project
+          mkdir build
+          cd build
+          cmake ../llvm -GNinja -DLLVM_ENABLE_PROJECTS="llvm;clang;openmp" -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=X86
+          ninja
+
+      - name: Enzyme build
+        run: |
+          cd Enzyme/enzyme
+          mkdir build
+          cd build
+          cmake .. -GNinja -DLLVM_PATH=../../llvm-project/build -DCMAKE_BUILD_TYPE=Release
+          ninja
+
+      - name: test
+      - run: |
+          export CLANG_PATH="`pwd`/llvm-project/build/bin"
+	  export ENZYME_PATH="`pwd`/Enzyme/enzyme/build/Enzyme/ClangEnzyme-15.so"
+          cd BUDE/openmp
+          MPI_PATH='.' make -j

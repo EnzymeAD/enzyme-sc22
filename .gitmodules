@@ -13,3 +13,6 @@
 [submodule "LULESH.jl"]
 	path = LULESH.jl
 	url = https://github.com/JuliaLabs/LULESH.jl
+[submodule "Enzyme"]
+	path = Enzyme
+	url = https://github.com/EnzymeAD/Enzyme
