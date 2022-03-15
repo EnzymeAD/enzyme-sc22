@@ -1,0 +1,15 @@
+[submodule "llvm-project"]
+	path = llvm-project
+	url = https://github.com/jdoerfert/llvm-project
+[submodule "BUDE"]
+	path = BUDE
+	url = https://github.com/wsmoses/Enzyme-BUDE
+[submodule "LULESH-CPP"]
+	path = LULESH-CPP
+	url = https://github.com/wsmoses/Enzyme-MPI
+[submodule "LULESH-RAJA"]
+	path = LULESH-RAJA
+	url = https://github.com/wsmoses/LULESH-MPI-RAJA
+[submodule "LULESH.jl"]
+	path = LULESH.jl
+	url = https://github.com/JuliaLabs/LULESH.jl
