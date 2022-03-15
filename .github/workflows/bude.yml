@@ -43,7 +43,7 @@ jobs:
           ninja
 
       - name: test
-      - run: |
+        run: |
           export CLANG_PATH="`pwd`/llvm-project/build/bin"
 	  export ENZYME_PATH="`pwd`/Enzyme/enzyme/build/Enzyme/ClangEnzyme-15.so"
           cd BUDE/openmp

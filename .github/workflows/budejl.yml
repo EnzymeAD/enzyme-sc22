@@ -22,7 +22,7 @@ jobs:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
       - name: test
-      - run: |
+        run: |
           cd BUDE/miniBUDE.jl
           julia --project=Threading -e 'using Pkg; Pkg.build(); Pkg.add("Enzyme#main")'
           julia --project=Threading src/Threading.jl
