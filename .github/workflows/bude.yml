@@ -44,7 +44,7 @@ jobs:
           cd Enzyme/enzyme
           mkdir build
           cd build
-          cmake .. -GNinja -DLLVM_PATH=../../llvm-project/build -DCMAKE_BUILD_TYPE=Release
+          cmake .. -GNinja -DLLVM_DIR=../../llvm-project/build -DCMAKE_BUILD_TYPE=Release
           ninja
 
       - name: test
