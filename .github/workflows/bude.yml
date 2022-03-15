@@ -24,7 +24,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: llvm-project/build
-          key: ${{ hashFiles('llvm-project/.git/modules/llvm-project/HEAD') }}
+          key: ${{ hashFiles('.git/modules/llvm-project/HEAD') }}
 
       - name: LLVM build
         if: steps.cache-llvm.outputs.cache-hit != 'true'
