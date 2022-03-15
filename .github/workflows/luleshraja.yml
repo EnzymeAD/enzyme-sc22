@@ -1,0 +1,56 @@
+name: RAJA LULESH CI
+on:
+  pull_request:
+  push:
+jobs:
+  build:
+    name: RAJA LULESH
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+
+    timeout-minutes: 240
+    steps:
+      - name: package
+        run: |
+          sudo apt-get install -y autoconf cmake gcc g++ gfortran ninja-build
+      
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          submodules: 'recursive'
+
+      - name: Cache LLVM
+        id: cache-llvm
+        uses: actions/cache@v2
+        with:
+          path: llvm-project/build
+          key: ${{ hashFiles('.git/modules/llvm-project/HEAD') }}
+
+      - name: LLVM build
+        if: steps.cache-llvm.outputs.cache-hit != 'true'
+        run: |
+          cd llvm-project
+          mkdir build
+          cd build
+          cmake ../llvm -GNinja -DLLVM_ENABLE_PROJECTS="llvm;clang;openmp" -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=X86
+          ninja
+
+      - name: Enzyme build
+        run: |
+          cd Enzyme/enzyme
+          mkdir build
+          cd build
+          cmake .. -GNinja -DLLVM_PATH=../../llvm-project/build -DCMAKE_BUILD_TYPE=Release
+          ninja
+
+      - name: test
+        run: |
+          cd LULESH-CPP
+          mkdir build
+          cd build
+          cmake .. -G Ninja -DENABLE_OPENMP=ON -DLLVM_BUILD=${{ github.workspace }}/llvm-project/build -DENZYME=${{ github.workspace }}/Enzyme/enzyme/build/Enzyme/ClangEnzyme-15.so
+          ninja
