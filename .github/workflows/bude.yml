@@ -44,8 +44,10 @@ jobs:
           ninja
 
       - name: test
+        env:
+          CLANG_PATH: ${{ github.workspace }}/llvm-project/build/bin
+          ENZYME_PATH: ${{ github.workspace }}/Enzyme/enzyme/build/Enzyme/ClangEnzyme-15.so
+          MPI_PATH: ${{ github.workspace }}
         run: |
-          export CLANG_PATH="`pwd`/llvm-project/build/bin"
-	  export ENZYME_PATH="`pwd`/Enzyme/enzyme/build/Enzyme/ClangEnzyme-15.so"
           cd BUDE/openmp
-          MPI_PATH='.' make -j
+          make -j
