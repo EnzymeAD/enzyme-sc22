@@ -15,8 +15,9 @@ jobs:
     timeout-minutes: 240
     steps:
       - uses: actions/checkout@v2
-	fetch-depth: 1
-        submodules: 'recursive'
+        with:
+          fetch-depth: 1
+          submodules: 'recursive'
 
       - name: Cache LLVM
         id: cache-llvm

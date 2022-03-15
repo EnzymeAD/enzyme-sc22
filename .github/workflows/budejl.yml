@@ -17,6 +17,9 @@ jobs:
           - x64
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          submodules: 'recursive'
       - uses: julia-actions/setup-julia@v1
         with:
           version: ${{ matrix.version }}
