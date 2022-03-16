@@ -60,7 +60,7 @@ jobs:
           cd LULESH-RAJA
           mkdir build
           cd build
-          cmake .. -G Ninja -DENABLE_OPENMP=ON -DLLVM_BUILD=${{ github.workspace }}/llvm-project/build -DENZYME=${{ github.workspace }}/Enzyme/enzyme/build/Enzyme/ClangEnzyme-15.so
+          cmake .. -G Ninja -DENABLE_OPENMP=ON -DLLVM_BUILD=${{ github.workspace }}/llvm-project/build -DENZYME=${{ github.workspace }}/Enzyme/enzyme/build/Enzyme/ClangEnzyme-15.so -DMPI_INCLUDE=/usr/lib/x86_64-linux-gnu/openmpi/include
           ninja
 
       - name: Upload Build
