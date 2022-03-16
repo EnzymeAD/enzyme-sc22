@@ -62,6 +62,12 @@ jobs:
         run: |
           cd BUDE/openmp
           make -j
+
+      - name: Upload Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: budecpp
+          path: BUDE/openmp
       
       - run: cd BUDE/openmp && ./ser-single-forward.exe
       - run: cd BUDE/openmp && ./ser-single-gradient.exe

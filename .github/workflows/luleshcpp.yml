@@ -62,7 +62,13 @@ jobs:
         run: |
           cd LULESH-CPP
           make -j
-      
+
+      - name: Upload Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: luleshcpp
+          path: LULESH-CPP
+ 
       - run: LULESH-CPP/ser-single-forward.exe -s 10
       - run: LULESH-CPP/ser-single-gradient.exe -s 10
       - run: LULESH-CPP/omp-single-forward.exe -s 10

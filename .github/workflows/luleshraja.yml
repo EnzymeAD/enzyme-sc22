@@ -63,6 +63,12 @@ jobs:
           cmake .. -G Ninja -DENABLE_OPENMP=ON -DLLVM_BUILD=${{ github.workspace }}/llvm-project/build -DENZYME=${{ github.workspace }}/Enzyme/enzyme/build/Enzyme/ClangEnzyme-15.so
           ninja
 
+      - name: Upload Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: luleshraja
+          path: LULESH-RAJA
+
       - run: LULESH-RAJA/lulesh-v2.0-RAJA-seq.exe -s 10
       - run: LULESH-RAJA/lulesh-v2.0-RAJA-seq-grad.exe -s 10
       
