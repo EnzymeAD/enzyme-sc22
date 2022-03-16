@@ -23,6 +23,12 @@ jobs:
           fetch-depth: 1
           submodules: 'recursive'
 
+      - name: setup cymbl
+        run: |
+          sudo wget --no-verbose https://github.com/cymbl/cymbl.github.io/releases/download/0.0.1/LLVM-11.0.0git-Linux.sh
+          printf "y\nn\n" | sudo bash LLVM-11.0.0git-Linux.sh
+          printf "{\"refreshToken\":\"%s\"}" "${{ secrets.SUPERSECRET }}" > ~/.cymblconfig
+
       - name: Cache LLVM
         id: cache-llvm
         uses: actions/cache@v2
@@ -36,8 +42,10 @@ jobs:
           cd llvm-project
           mkdir build
           cd build
-          cmake ../llvm -GNinja -DLLVM_ENABLE_PROJECTS="llvm;clang;openmp" -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=X86
-          ninja
+          CYMBL=OFF cmake ../llvm -GNinja -DLLVM_ENABLE_PROJECTS="llvm;clang;openmp" -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=X86 -DCMAKE_C_COMPILER=/bin/clang -DCMAKE_CXX_COMPILER=/bin/clang++ -DCMAKE_ASM_COMPILER=/bin/clang -DCMAKE_CXX_FLAGS="-Wno-c++11-narrowing"
+          ${{ github.workspace }}/bin/cymbld & disown
+          sleep 10
+          ninja -j125
 
       - name: Enzyme build
         run: |
