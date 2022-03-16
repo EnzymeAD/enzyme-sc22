@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: package
         run: |
-          sudo apt-get install -y autoconf cmake gcc g++ gfortran ninja-build
+          sudo apt-get install -y autoconf cmake gcc g++ gfortran ninja-build libopenmpi-dev
       
       - uses: actions/checkout@v2
         with:
@@ -59,7 +59,6 @@ jobs:
         env:
           CLANG_PATH: ${{ github.workspace }}/llvm-project/build/bin
           ENZYME_PATH: ${{ github.workspace }}/Enzyme/enzyme/build/Enzyme/ClangEnzyme-15.so
-          MPI_PATH: ${{ github.workspace }}
         run: |
           cd LULESH-CPP
           make -j
