@@ -26,9 +26,11 @@ jobs:
           arch: ${{ matrix.arch }}
       - uses: julia-actions/julia-buildpkg@v1
         with:
-          project: BUDE/miniBUDE.jl/Threading
+          project: BUDE/miniBUDE.jl/Threaded
       - name: test
         run: |
           cd BUDE/miniBUDE.jl
-          julia --project=Threading src/Threading.jl
-          julia --project=Threading src/Threading.jl --enzyme 1
+          julia --project=Threaded src/Threaded.jl
+          julia --project=Threaded src/Threaded.jl --enzyme 1
+          julia --threads 4 --project=Threaded src/Threaded.jl
+          julia --threads 4 --project=Threaded src/Threaded.jl --enzyme 1
