@@ -69,15 +69,15 @@ jobs:
           name: luleshraja
           path: LULESH-RAJA
 
-      - run: LULESH-RAJA/lulesh-v2.0-RAJA-seq.exe -s 10
-      - run: LULESH-RAJA/lulesh-v2.0-RAJA-seq-grad.exe -s 10
+      - run: bin/LULESH-RAJA/lulesh-v2.0-RAJA-seq.exe -s 10
+      - run: bin/LULESH-RAJA/lulesh-v2.0-RAJA-seq-grad.exe -s 10
       
-      - run: LULESH-RAJA/lulesh-v2.0-RAJA-omp.exe -s 10
-      - run: LULESH-RAJA/lulesh-v2.0-RAJA-omp-gradient.exe -s 10
+      - run: bin/LULESH-RAJA/lulesh-v2.0-RAJA-omp.exe -s 10
+      - run: bin/LULESH-RAJA/lulesh-v2.0-RAJA-omp-gradient.exe -s 10
       
-      - run: LULESH-RAJA/lulesh-v2.0-RAJA-ompOpt.exe -s 10
-      - run: LULESH-RAJA/lulesh-v2.0-RAJA-ompOpt-gradient.exe -s 10
+      - run: bin/LULESH-RAJA/lulesh-v2.0-RAJA-ompOpt.exe -s 10
+      - run: bin/LULESH-RAJA/lulesh-v2.0-RAJA-ompOpt-gradient.exe -s 10
       
-      - run: mpirun -n 8 --oversubscribe LULESH-RAJA/lulesh-v2.0-RAJA-seq-mpi.exe -s 10
-      - run: mpirun -n 8 --oversubscribe LULESH-RAJA/lulesh-v2.0-RAJA-seq-mpi-grad.exe -s 10
+      - run: mpirun -n 8 --oversubscribe bin/LULESH-RAJA/lulesh-v2.0-RAJA-seq-mpi.exe -s 10
+      - run: mpirun -n 8 --oversubscribe bin/LULESH-RAJA/lulesh-v2.0-RAJA-seq-mpi-grad.exe -s 10
       
