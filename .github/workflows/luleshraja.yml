@@ -57,8 +57,21 @@ jobs:
 
       - name: test
         run: |
-          cd LULESH-CPP
+          cd LULESH-RAJA
           mkdir build
           cd build
           cmake .. -G Ninja -DENABLE_OPENMP=ON -DLLVM_BUILD=${{ github.workspace }}/llvm-project/build -DENZYME=${{ github.workspace }}/Enzyme/enzyme/build/Enzyme/ClangEnzyme-15.so
           ninja
+
+      - run: LULESH-RAJA/lulesh-v2.0-RAJA-seq.exe -s 10
+      - run: LULESH-RAJA/lulesh-v2.0-RAJA-seq-grad.exe -s 10
+      
+      - run: LULESH-RAJA/lulesh-v2.0-RAJA-omp.exe -s 10
+      - run: LULESH-RAJA/lulesh-v2.0-RAJA-omp-gradient.exe -s 10
+      
+      - run: LULESH-RAJA/lulesh-v2.0-RAJA-ompOpt.exe -s 10
+      - run: LULESH-RAJA/lulesh-v2.0-RAJA-ompOpt-gradient.exe -s 10
+      
+      - run: mpirun -n 8 LULESH-RAJA/lulesh-v2.0-RAJA-seq-mpi.exe -s 10
+      - run: mpirun -n 8 LULESH-RAJA/lulesh-v2.0-RAJA-seq-mpi-grad.exe -s 10
+      

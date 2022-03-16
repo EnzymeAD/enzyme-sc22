@@ -55,7 +55,7 @@ jobs:
           cmake .. -GNinja -DLLVM_DIR=${{ github.workspace }}/llvm-project/build -DCMAKE_BUILD_TYPE=Release
           ninja
 
-      - name: test
+      - name: BUDE build
         env:
           CLANG_PATH: ${{ github.workspace }}/llvm-project/build/bin
           ENZYME_PATH: ${{ github.workspace }}/Enzyme/enzyme/build/Enzyme/ClangEnzyme-15.so
@@ -63,3 +63,11 @@ jobs:
         run: |
           cd BUDE/openmp
           make -j
+      
+      - run: BUDE/openmp/ser-single-forward.exe
+      - run: BUDE/openmp/ser-single-gradient.exe
+      - run: BUDE/openmp/omp-single-forward.exe
+      - run: BUDE/openmp/omp-single-gradient.exe
+      - run: BUDE/openmp/ompOpt-single-forward.exe
+      - run: BUDE/openmp/ompOpt-single-gradient.exe
+
