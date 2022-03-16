@@ -63,10 +63,10 @@ jobs:
           cd BUDE/openmp
           make -j
       
-      - run: BUDE/openmp/ser-single-forward.exe
-      - run: BUDE/openmp/ser-single-gradient.exe
-      - run: BUDE/openmp/omp-single-forward.exe
-      - run: BUDE/openmp/omp-single-gradient.exe
-      - run: BUDE/openmp/ompOpt-single-forward.exe
-      - run: BUDE/openmp/ompOpt-single-gradient.exe
+      - run: cd BUDE/openmp && ./ser-single-forward.exe
+      - run: cd BUDE/openmp && ./ser-single-gradient.exe
+      - run: cd BUDE/openmp && ./omp-single-forward.exe
+      - run: cd BUDE/openmp && ./omp-single-gradient.exe
+      - run: cd BUDE/openmp && ./ompOpt-single-forward.exe
+      - run: cd BUDE/openmp && ./ompOpt-single-gradient.exe
 
