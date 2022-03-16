@@ -24,9 +24,11 @@ jobs:
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
+      - uses: julia-actions/julia-buildpkg@v1
+        with:
+          project: BUDE/miniBUDE.jl/Threading
       - name: test
         run: |
           cd BUDE/miniBUDE.jl
-          julia --project=Threading -e 'using Pkg; Pkg.build(); Pkg.add("Enzyme#main")'
           julia --project=Threading src/Threading.jl
           julia --project=Threading src/Threading.jl --enzyme 1
