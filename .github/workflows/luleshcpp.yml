@@ -72,11 +72,11 @@ jobs:
       - run: LULESH-CPP/ompOpt-single-forward.exe -s 10
       - run: LULESH-CPP/ompOpt-single-gradient.exe -s 10
       
-      - run: mpirun -n 8 LULESH-CPP/ser-mpi-forward.exe -s 10
-      - run: mpirun -n 8 LULESH-CPP/ser-mpi-gradient.exe -s 10
-      - run: mpirun -n 8 LULESH-CPP/omp-mpi-forward.exe -s 10
-      - run: mpirun -n 8 LULESH-CPP/omp-mpi-gradient.exe -s 10
-      - run: mpirun -n 8 LULESH-CPP/ompM-mpi-forward.exe -s 10
-      - run: mpirun -n 8 LULESH-CPP/ompM-mpi-gradient.exe -s 10
-      - run: mpirun -n 8 LULESH-CPP/ompOpt-mpi-forward.exe -s 10
-      - run: mpirun -n 8 LULESH-CPP/ompOpt-mpi-gradient.exe -s 10
+      - run: mpirun -n 8 --oversubscribe LULESH-CPP/ser-mpi-forward.exe -s 10
+      - run: mpirun -n 8 --oversubscribe LULESH-CPP/ser-mpi-gradient.exe -s 10
+      - run: mpirun -n 8 --oversubscribe LULESH-CPP/omp-mpi-forward.exe -s 10
+      - run: mpirun -n 8 --oversubscribe LULESH-CPP/omp-mpi-gradient.exe -s 10
+      - run: mpirun -n 8 --oversubscribe LULESH-CPP/ompM-mpi-forward.exe -s 10
+      - run: mpirun -n 8 --oversubscribe LULESH-CPP/ompM-mpi-gradient.exe -s 10
+      - run: mpirun -n 8 --oversubscribe LULESH-CPP/ompOpt-mpi-forward.exe -s 10
+      - run: mpirun -n 8 --oversubscribe LULESH-CPP/ompOpt-mpi-gradient.exe -s 10

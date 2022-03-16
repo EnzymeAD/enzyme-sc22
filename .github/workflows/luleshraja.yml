@@ -72,6 +72,6 @@ jobs:
       - run: LULESH-RAJA/lulesh-v2.0-RAJA-ompOpt.exe -s 10
       - run: LULESH-RAJA/lulesh-v2.0-RAJA-ompOpt-gradient.exe -s 10
       
-      - run: mpirun -n 8 LULESH-RAJA/lulesh-v2.0-RAJA-seq-mpi.exe -s 10
-      - run: mpirun -n 8 LULESH-RAJA/lulesh-v2.0-RAJA-seq-mpi-grad.exe -s 10
+      - run: mpirun -n 8 --oversubscribe LULESH-RAJA/lulesh-v2.0-RAJA-seq-mpi.exe -s 10
+      - run: mpirun -n 8 --oversubscribe LULESH-RAJA/lulesh-v2.0-RAJA-seq-mpi-grad.exe -s 10
       
