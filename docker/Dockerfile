@@ -43,6 +43,7 @@ ENV ENZYME_PATH /root/enzyme-sc22/Enzyme/enzyme/build/Enzyme/ClangEnzyme-15.so
 ENV CLANG_PATH /root/enzyme-sc22/llvm-project/build/bin
 
 #BUILD LULESH-CPP
+RUN cd /root/enzyme-sc22/LULESH-CPP
 WORKDIR /root/enzyme-sc22/LULESH-CPP
 RUN sed -i "s/\ttime/\t\/usr\/bin\/time/g" Makefile
 RUN CLANG_PATH=$CLANG_PATH ENZYME_PATH=$ENZYME_PATH make -j
@@ -68,11 +69,13 @@ RUN make -j
 WORKDIR /root/enzyme-sc22/BUDE/miniBUDE.jl
 RUN /root/julia-1.7.3/bin/julia --project=Threaded -e "import Pkg;Pkg.instantiate()"
 
-##BUILD LULESH CoDiPack
-#WORKDIR /root/CODI-LULESH/lulesh-forward
-#RUN make
-#WORKDIR /root/CODI-LULESH/lulesh-gradient
-#RUN make
+#BUILD LULESH CoDiPack
+WORKDIR /root
+RUN git clone https://github.com/wsmoses/CODI-LULESH
+WORKDIR /root/CODI-LULESH/lulesh-forward
+RUN CLANG_PATH=$CLANG_PATH ENZYME_PATH=$ENZYME_PATH make
+WORKDIR /root/CODI-LULESH/lulesh-gradient
+RUN CLANG_PATH=$CLANG_PATH ENZYME_PATH=$ENZYME_PATH make
 
 #List all executables
 WORKDIR /root
@@ -81,69 +84,5 @@ RUN ls /root/enzyme-sc22/LULESH-RAJA/build/bin/
 RUN ls /root/enzyme-sc22/LULESH.jl/
 RUN ls /root/enzyme-sc22/BUDE/openmp/
 RUN ls /root/enzyme-sc22/BUDE/miniBUDE.jl/
-
-#RUN LULESH-CPP
-WORKDIR /root/enzyme-sc22/LULESH-CPP/bench/omp-mpi
-RUN ./script.py
-RUN ./res.py
-WORKDIR /root/enzyme-sc22/LULESH-CPP/bench/omp-single
-RUN ./script.py
-RUN ./res.py
-WORKDIR /root/enzyme-sc22/LULESH-CPP/bench/ompOpt-single
-RUN ./script.py
-RUN ./res.py
-WORKDIR /root/enzyme-sc22/LULESH-CPP/bench/ser-mpi-strong-scaling
-RUN ./script.py
-RUN ./res.py
-WORKDIR /root/enzyme-sc22/LULESH-CPP/bench/ser-mpi-weak-scaling
-RUN ./script.py
-RUN ./res.py
-
-#Run LULESH-RAJA
-WORKDIR /root/enzyme-sc22/LULESH-RAJA/bench/omp-mpi
-RUN ./script.py
-RUN ./res.py
-WORKDIR /root/enzyme-sc22/LULESH-RAJA/bench/omp-single
-RUN ./script.py
-RUN ./res.py
-WORKDIR /root/enzyme-sc22/LULESH-RAJA/bench/ompOpt-single
-RUN ./script.py
-RUN ./res.py
-WORKDIR /root/enzyme-sc22/LULESH-RAJA/bench/ser-mpi-strong-scaling
-RUN ./script.py
-RUN ./res.py
-WORKDIR /root/enzyme-sc22/LULESH-RAJA/bench/ser-mpi-weak-scaling
-RUN ./script.py
-RUN ./res.py
-
-#Run LULESH.jl
-WORKDIR /root/enzyme-sc22/LULESH.jl/bench/ser-mpi-strong-scaling
-RUN ./script.py
-RUN ./res.py
-WORKDIR /root/enzyme-sc22/LULESH.jl/bench/ser-mpi-weak-scaling
-RUN ./script.py
-RUN ./res.py
-
-#Run BUDE OpenMP
-WORKDIR /root/enzyme-sc22/BUDE/openmp/bench/omp-single
-RUN ./script.py
-RUN ./res.py
-WORKDIR /root/enzyme-sc22/BUDE/openmp/bench/ompOpt-single
-RUN ./script.py
-RUN ./res.py
-
-#Run miniBUDE.jl
-WORKDIR /root/enzyme-sc22/LULESH.jl/bench/ser-mpi-strong-scaling
-RUN ./script.py
-RUN ./res.py
-WORKDIR /root/enzyme-sc22/LULESH.jl/bench/ser-mpi-weak-scaling
-RUN ./script.py
-RUN ./res.py
-
-##Run LULESH CoDiPack
-#WORKDIR /root/CODI-LULESH/bench/ser-mpi-strong-scaling
-#RUN ./script.py
-#RUN ./res.py
-#WORKDIR /root/CODI-LULESH/bench/ser-mpi-weak-scaling
-#RUN ./script.py
-#RUN ./res.py
+RUN ls /root/CODI-LULESH/lulesh-forward/
+RUN ls /root/CODI-LULESH/lulesh-gradient/
