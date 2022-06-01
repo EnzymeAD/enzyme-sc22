@@ -77,18 +77,59 @@ RUN ls /root/enzyme-sc22/BUDE/openmp/
 RUN ls /root/enzyme-sc22/BUDE/miniBUDE.jl/
 
 #RUN LULESH-CPP
-WORKDIR /root/enzyme-sc22/LULESH-CPP/bench/omp-mpi  
+WORKDIR /root/enzyme-sc22/LULESH-CPP/bench/omp-mpi
 RUN ./script.py
 RUN ./res.py
-WORKDIR /root/enzyme-sc22/LULESH-CPP/bench/omp-single  
+WORKDIR /root/enzyme-sc22/LULESH-CPP/bench/omp-single
 RUN ./script.py
 RUN ./res.py
-WORKDIR /root/enzyme-sc22/LULESH-CPP/bench/ompOpt-single  
+WORKDIR /root/enzyme-sc22/LULESH-CPP/bench/ompOpt-single
 RUN ./script.py
 RUN ./res.py
-WORKDIR /root/enzyme-sc22/LULESH-CPP/bench/ser-mpi-strong-scaling  
+WORKDIR /root/enzyme-sc22/LULESH-CPP/bench/ser-mpi-strong-scaling
 RUN ./script.py
 RUN ./res.py
 WORKDIR /root/enzyme-sc22/LULESH-CPP/bench/ser-mpi-weak-scaling
+RUN ./script.py
+RUN ./res.py
+
+#Run LULESH-RAJA
+WORKDIR /root/enzyme-sc22/LULESH-RAJA/bench/omp-mpi
+RUN ./script.py
+RUN ./res.py
+WORKDIR /root/enzyme-sc22/LULESH-RAJA/bench/omp-single
+RUN ./script.py
+RUN ./res.py
+WORKDIR /root/enzyme-sc22/LULESH-RAJA/bench/ompOpt-single
+RUN ./script.py
+RUN ./res.py
+WORKDIR /root/enzyme-sc22/LULESH-RAJA/bench/ser-mpi-strong-scaling
+RUN ./script.py
+RUN ./res.py
+WORKDIR /root/enzyme-sc22/LULESH-RAJA/bench/ser-mpi-weak-scaling
+RUN ./script.py
+RUN ./res.py
+
+#Run LULESH.jl
+WORKDIR /root/enzyme-sc22/LULESH.jl/bench/ser-mpi-strong-scaling
+RUN ./script.py
+RUN ./res.py
+WORKDIR /root/enzyme-sc22/LULESH.jl/bench/ser-mpi-weak-scaling
+RUN ./script.py
+RUN ./res.py
+
+#Run BUDE OpenMP
+WORKDIR /root/enzyme-sc22/BUDE/openmp/bench/omp-single
+RUN ./script.py
+RUN ./res.py
+WORKDIR /root/enzyme-sc22/BUDE/openmp/bench/ompOpt-single
+RUN ./script.py
+RUN ./res.py
+
+#Run miniBUDE.jl
+WORKDIR /root/enzyme-sc22/LULESH.jl/bench/ser-mpi-strong-scaling
+RUN ./script.py
+RUN ./res.py
+WORKDIR /root/enzyme-sc22/LULESH.jl/bench/ser-mpi-weak-scaling
 RUN ./script.py
 RUN ./res.py
