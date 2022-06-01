@@ -45,15 +45,15 @@ jobs:
           CYMBL=OFF cmake ../llvm -GNinja -DLLVM_ENABLE_PROJECTS="llvm;clang;openmp" -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=X86 -DCMAKE_C_COMPILER=${{ github.workspace }}/bin/clang -DCMAKE_CXX_COMPILER=${{ github.workspace }}/bin/clang++ -DCMAKE_ASM_COMPILER=${{ github.workspace }}/bin/clang -DCMAKE_CXX_FLAGS="-Wno-c++11-narrowing"
           ${{ github.workspace }}/bin/cymbld & disown
           sleep 10
-          ninja -j125
+          CYMBL=OFF ninja -j125
 
       - name: Enzyme build
         run: |
           cd Enzyme/enzyme
           mkdir build
           cd build
-          cmake .. -GNinja -DLLVM_DIR=${{ github.workspace }}/llvm-project/build -DCMAKE_BUILD_TYPE=Release
-          ninja
+          CYMBL=OFF cmake .. -GNinja -DLLVM_DIR=${{ github.workspace }}/llvm-project/build -DCMAKE_BUILD_TYPE=Release
+          CYMBL=OFF ninja
 
       - name: BUDE build
         env:
