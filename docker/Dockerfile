@@ -23,6 +23,7 @@ RUN git checkout ade41ef9
 WORKDIR /root
 RUN wget https://julialang-s3.julialang.org/bin/linux/x64/1.7/julia-1.7.3-linux-x86_64.tar.gz 
 RUN tar zxvf julia-1.7.3-linux-x86_64.tar.gz
+ENV PATH "$PATH:/root/julia-1.7.3/bin/"
 
 #Build llvm-project
 WORKDIR /root/enzyme-sc22/llvm-project
