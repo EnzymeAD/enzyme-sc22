@@ -68,6 +68,12 @@ RUN make -j
 WORKDIR /root/enzyme-sc22/BUDE/miniBUDE.jl
 RUN /root/julia-1.7.3/bin/julia --project=Threaded -e "import Pkg;Pkg.instantiate()"
 
+##BUILD LULESH CoDiPack
+#WORKDIR /root/CODI-LULESH/lulesh-forward
+#RUN make
+#WORKDIR /root/CODI-LULESH/lulesh-gradient
+#RUN make
+
 #List all executables
 WORKDIR /root
 RUN ls /root/enzyme-sc22/LULESH-CPP/
@@ -133,3 +139,11 @@ RUN ./res.py
 WORKDIR /root/enzyme-sc22/LULESH.jl/bench/ser-mpi-weak-scaling
 RUN ./script.py
 RUN ./res.py
+
+##Run LULESH CoDiPack
+#WORKDIR /root/CODI-LULESH/bench/ser-mpi-strong-scaling
+#RUN ./script.py
+#RUN ./res.py
+#WORKDIR /root/CODI-LULESH/bench/ser-mpi-weak-scaling
+#RUN ./script.py
+#RUN ./res.py
