@@ -70,7 +70,7 @@ jobs:
           path: LULESH-RAJA
 
       - run: LULESH-RAJA/build/bin/lulesh-v2.0-RAJA-seq.exe -s 10
-      - run: bin/LULESH-RAJA/lulesh-v2.0-RAJA-seq-grad.exe -s 10
+      - run: LULESH-RAJA/build/bin/lulesh-v2.0-RAJA-seq-grad.exe -s 10
       
       - run: LULESH-RAJA/build/bin/lulesh-v2.0-RAJA-omp.exe -s 10
       - run: LULESH-RAJA/build/bin/lulesh-v2.0-RAJA-omp-gradient.exe -s 10
