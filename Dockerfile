@@ -1,6 +1,8 @@
 FROM ubuntu:focal
 SHELL ["/bin/bash", "-c"]
 
+RUN groupadd -r myuser && useradd -r -g myuser myuser
+
 RUN apt-get update
 RUN apt-get -y install apt-utils
 RUN apt-get -y install tzdata --assume-yes
@@ -87,3 +89,7 @@ RUN ls /root/enzyme-sc22/BUDE/openmp/
 RUN ls /root/enzyme-sc22/BUDE/miniBUDE.jl/
 RUN ls /root/CODI-LULESH/lulesh-forward/
 RUN ls /root/CODI-LULESH/lulesh-gradient/
+
+#Setup a non root user
+RUN chown -hR myuser /root
+USER myuser
