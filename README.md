@@ -36,13 +36,13 @@ RAM.
 
 All the codes and benchmarks are available on Github
 <a href="github.com/EnzymeAD/enzyme-sc22"
-class="uri">github.com/EnzymeAD/enzyme-sc22</a> at commit `ade41ef9`,
+class="uri">github.com/EnzymeAD/enzyme-sc22</a> at commit `8665560`,
 DOI [10.5281/zenodo.6609054](https://doi.org/10.5281/zenodo.6609054). We first obtain the code:
 ```console
 cd $HOME
 git clone --recursive https://github.com/EnzymeAD/enzyme-sc22
 cd enzyme-sc22
-git checkout 17c816a
+git checkout 8665560
 ```
 
 This repository contains submodules for the benchmarks and codes listed
@@ -52,11 +52,11 @@ below.
 
 | Code        | Link                                               | Hash      |
 |:------------|:---------------------------------------------------|:----------|
-| BUDE        | [github.com/wsmoses/Enzyme-BUDE](github.com/wsmoses/Enzyme-BUDE)     | `f3cba59` |
-| LULESH-CoDi | [github.com/wsmoses/CODI-LULESH](github.com/wsmoses/CODI-LULESH)      | `ad3e8fc` |
-| LULESH-CPP  | [github.com/wsmoses/Enzyme-MPI](github.com/wsmoses/Enzyme-MPI)       | `bfb4ef8` |
-| LULESH-RAJA | [github.com/wsmoses/LULESH-MPI-RAJA](github.com/wsmoses/LULESH-MPI-RAJA)  | `1375c61` |
-| LULESH.jl   | [github.com/JuliaLabs/LULESH.jl](github.com/JuliaLabs/LULESH.jl)      | `3b8c862` |
+| BUDE        | [github.com/wsmoses/Enzyme-BUDE](github.com/wsmoses/Enzyme-BUDE)     | `28b6d6e` |
+| LULESH-CoDi | [github.com/wsmoses/CODI-LULESH](github.com/wsmoses/CODI-LULESH)      | `566b2ef` |
+| LULESH-CPP  | [github.com/wsmoses/Enzyme-MPI](github.com/wsmoses/Enzyme-MPI)       | `47e0a3e` |
+| LULESH-RAJA | [github.com/wsmoses/LULESH-MPI-RAJA](github.com/wsmoses/LULESH-MPI-RAJA)  | `45146d3` |
+| LULESH.jl   | [github.com/JuliaLabs/LULESH.jl](github.com/JuliaLabs/LULESH.jl)      | `2338418` |
 | Enzyme      | [github.com/EnzymeAD/Enzyme](github.com/EnzymeAD/Enzyme)          | `5c89a86` |
 | LLVM        | [github.com/jdoerfert/llvm-project](github.com/jdoerfert/llvm-project)   | `354c7f8` |
 
@@ -174,12 +174,7 @@ cd $HOME/enzyme-sc22
 Once the preliminary setup is complete, we can now enter one of the test
 directories, build, and run the corresponding benchmark.
 
-We have created a Python3 scripts for running all the executables and
-performing scaling analyses. The python scripts run the executables at
-different MPI rank and OpenMP thread counts, corresponding to the
-experiments we performed in the paper. If running on a machine of a
-different size, these scripts can be edited to use the available number
-of cores on your machine.
+We have created Python3 scripts for running all the executables and performing scaling analyses. The python scripts run the executables at different MPI rank and OpenMP thread counts, corresponding to the experiments we performed in the paper. The raw timing numbers for the graphs presented in the paper are thus reproduced by running the experiments on the AMI using the provided scripts. If running on a machine of a different size, these scripts can be edited to use the available number of cores on your machine.
 
 #### LULESH-CPP
 
