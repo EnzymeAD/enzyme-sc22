@@ -19,7 +19,7 @@ CMD ["echo", "Cloning Enzyme SC 22 Files"]
 WORKDIR /root
 RUN git clone --recursive https://github.com/EnzymeAD/enzyme-sc22
 WORKDIR /root/enzyme-sc22
-RUN git checkout ca4b6f2
+RUN git checkout 8665560
 
 #Install Julia
 WORKDIR /root
