@@ -16,3 +16,6 @@
 [submodule "Enzyme"]
 	path = Enzyme
 	url = https://github.com/EnzymeAD/Enzyme
+[submodule "CODI-LULESH"]
+	path = CODI-LULESH
+	url = https://github.com/wsmoses/CODI-LULESH
