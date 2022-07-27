@@ -1,4 +1,5 @@
-# enzyme-sc22
+# Benchmark Repository for "Scalable Automatic Differentiation of Multiple Parallel Paradigms through Compiler Augmentation", to appear in SC'22
+
 We have introduced a composable and generic LLVM-based mechanism to
 differentiate a variety of parallel programming models. To illustrate
 the composability of Enzyme’s differentiation of parallel frameworks, we
@@ -25,19 +26,17 @@ scalability. As such, the original (referred to as the primal) and
 differentiated versions of these benchmarks were evaluated on varying
 thread counts and ranks, as well
 
-#### Machine
+## 1. Machine
 
-Experiments were run on an AWS c6i.metal instance with hyper-threading
+Experiments for the paper were run on an AWS c6i.metal instance with hyper-threading
 and Turbo Boost disabled, running Ubuntu 20.04 running on a dual-socket
 Intel Xeon Platinum 8375C CPU at 2.9 GHz with 32 cores each and 256 GB
 RAM.
 
-#### Obtaining the code
+## 2. Obtaining the code
 
-All the codes and benchmarks are available on Github
-<a href="github.com/EnzymeAD/enzyme-sc22"
-class="uri">github.com/EnzymeAD/enzyme-sc22</a> at commit `8665560`,
-DOI [10.5281/zenodo.6609054](https://doi.org/10.5281/zenodo.6609054). We first obtain the code:
+All the codes and benchmarks are available on Github in this repository.
+We first obtain the code:
 ```console
 cd $HOME
 git clone --recursive https://github.com/EnzymeAD/enzyme-sc22
@@ -64,43 +63,33 @@ below.
 
 <span id="tbl:code_details" label="tbl:code_details"></span>
 
-To evaluate the artifact, we offer four options.
+To evaluate the artifact, we offer several options.
 
-1.  The first option is an AMI or Amazon Machine Image. An AMI is an
-    image of the virtual machine which ran our experiements and can be
-    used to create an identical virtual machine with the same operating
-    system and existing builds of all experimental binaries and setups.
-    For those who wish to precisely emulate our experimental
-    methodology, create a new Virtual Machine on AWS (we used a
-    c6i.metal instance) and search for the the ID of our provided image
-    `ami-0d98fc05a03ebe550`. You may then launch the instance and then
-    skip the rest of this section that involves downloading or building
-    the experiments.
+### 2-A Download CI Artifacts
+You can download the build artifacts from this repository's CI.
+Every push to this repository will automatically build, test, and
+upload all the benchmarks (see
+<https://github.com/EnzymeAD/enzyme-sc22/tree/main/.github/workflows>
+for the precise build commands). One can download the benchmarks
+built by CI by selecting the “Actions” tab, selecting the latest
+build of the corresponding benchmark, and clicking the binary below
+the “Artifacts” header. One may then skip the rest of
+the section that involves downloading or building the experiments.
+Note that the binary is built on Ubuntu X86 and one will need a
+compatible system (e.g. not ARM, not macOS, to run the prebuilt
+binary from CI).
 
-2.  The second option is to build the tools and experiments from source.
-    This is the same procedure which was done to produce the AMI in the
-    first option and is outlined below.
-
-3.  The third option to download the build artifacts from CI. Every push
-    to the benchmarks repository will automatically build, test, and
-    upload all the benchmarks (see
-    <https://github.com/EnzymeAD/enzyme-sc22/tree/main/.github/workflows>
-    for the precise build commands). One can download the benchmarks
-    built by CI by selecting the “Actions” tab, selecting the latest
-    build of the corresponding benchmark, and clicking the binary below
-    the “Artifacts” header. Like the AMI, one may then skip the rest of
-    the section that involves downloading or building the experiments.
-    Note that the binary is built on Ubuntu X86 and one will need a
-    compatible system (e.g. not ARM, not macOS, to run the prebuilt
-    binary from CI).
-
-4.  The fourth option is to use a pre-built docker image
-    (`wsmoses/enzymesc22`). The docker image can then be invoked with
+### 2-B Docker
+You may use a pre-built docker image (`wsmoses/enzymesc22`).
+The docker image can then be invoked with
     the following command:
 ```console
 sudo docker run --privileged -it wsmoses/enzymesc22:latest /bin/bash
 ```
 We begin by installing OpenMPI and Julia and build LLVM and Enzyme.
+
+###  2-C Build From Source
+This procedure for building the compilers and tests from source is outlined below.
 
 #### MPI
 
@@ -151,7 +140,100 @@ environment variables.
 export ENZYME_PATH=$HOME/enzyme-sc22/Enzyme/enzyme/build/Enzyme/ClangEnzyme-15.so
 export CLANG_PATH=$HOME/enzyme-sc22/llvm-project/build/bin
 ```
-#### Disabling/Enabling Hyperthreading
+
+#### LULESH-CPP
+
+The following commands can be used to build all the executables for LULESH C++ tests.
+```console
+cd $HOME/enzyme-sc22/LULESH-CPP
+make -j
+# Binaries available in enzyme-sc22/LULESH-CPP
+# ser-single-forward.exe
+# ser-single-gradient.exe
+# omp-single-forward.exe
+# omp-single-gradient.exe
+# ompM-single-forward.exe
+# ompM-single-gradient.exe
+# ompOpt-single-forward.exe
+# ompOpt-single-gradient.exe
+```
+
+#### LULESH-RAJA
+
+The following commands can be used to build all the executables for LULESH RAJA tests.
+```console
+cd $HOME/enzyme-sc22/LULESH-RAJA
+mkdir build
+cd build
+cmake .. -G Ninja -DENABLE_OPENMP=ON -DLLVM_BUILD=$CLANG_PATH/.. -DENZYME=$ENZYME_PATH -DMPI_INCLUDE=/usr/lib/x86_64-linux-gnu/openmpi/include
+ninja
+# Binaries available in LULESH-RAJA/build/bin
+# lulesh-v2.0-RAJA-seq.exe
+# lulesh-v2.0-RAJA-seq-grad.exe
+# lulesh-v2.0-RAJA-omp.exe
+# lulesh-v2.0-RAJA-omp-gradient.exe
+# lulesh-v2.0-RAJA-ompOpt.exe
+# lulesh-v2.0-RAJA-ompOpt-gradient.exe
+# lulesh-v2.0-RAJA-seq-mpi.exe
+# lulesh-v2.0-RAJA-seq-mpi-grad.exe
+```
+
+#### LULESH.jl
+
+You may then need to explicitly run various setup routines within
+Julia’s package manager. To fix the Julia setup for the test, perform
+the following to enter an interactive shell.
+```console
+cd $HOME/enzyme-sc22/LULESH.jl
+julia --project -e "import Pkg; Pkg.instantiate()"
+julia --project
+    julia> import MPI
+    julia> MPI.install_mpiexecjl(;destdir=".",force=true)
+# The `mpiexecjl` executable should now
+# exist in $HOME/enzyme-sc22/LULESH.jl
+```
+
+#### LULESH-CoDiPack
+
+The following commands can be used to build all the CoDiPack versions of LULESH.
+```console
+cd $HOME/CODI-LULESH/lulesh-forward
+make
+# Binaries available in CODI-LULESH/lulesh-forward/
+# lulesh2.0
+cd CODI-LULESH/lulesh-gradient
+make
+# Binaries available in CODI-LULESH/lulesh-gradient/
+# lulesh2.0
+```
+
+#### BUDE
+
+The following commands can be used to build all the executables.
+```console
+cd $HOME/enzyme-sc22/BUDE/openmp
+make -j
+# Binaries available in enzyme-sc22/BUDE/openmp
+# ./ser-single-forward.exe
+# ./ser-single-gradient.exe
+# ./omp-single-forward.exe
+# ./omp-single-gradient.exe
+# ./ompOpt-single-forward.exe
+# ./ompOpt-single-gradient.exe
+```
+
+#### miniBUDE.jl
+
+The following commands can be used to build all the executables.
+```console
+cd $HOME/enzyme-sc22/BUDE/miniBUDE.jl/
+julia --project=Threaded -e "import Pkg; Pkg.instantiate()"
+#No executables are created
+```
+
+## 3. Evaluation of Benchmarks
+
+### 3-A Disabling/Enabling Hyperthreading
 
 To obtain reproducible results that are not subject to oddities
 resulting from thread mapping, we recommend the disabling of
@@ -169,29 +251,57 @@ or
 cd $HOME/enzyme-sc22
 ./enable.sh
 ```
-#### Evaluation of Benchmarks
 
+### 3-B Executing Benchmarks
 Once the preliminary setup is complete, we can now enter one of the test
 directories, build, and run the corresponding benchmark.
 
-We have created Python3 scripts for running all the executables and performing scaling analyses. The python scripts run the executables at different MPI rank and OpenMP thread counts, corresponding to the experiments we performed in the paper. The raw timing numbers for the graphs presented in the paper are thus reproduced by running the experiments on the AMI using the provided scripts. If running on a machine of a different size, these scripts can be edited to use the available number of cores on your machine.
+We have created Python3 scripts for running all the executables and performing scaling analyses. The python scripts run the executables at different MPI rank and OpenMP thread counts, corresponding to the experiments we performed in the paper. The raw timing numbers for the graphs presented in the paper are thus reproduced by running the experiments using the provided scripts on the test machine. If running on a machine of a different size, these scripts can be edited to use the available number of cores on your machine.
+
+After executing a benchmark, the raw data output from evaluating the benchmarks is contained in .txt files labeled with the parameters (rank/thread count/problem size/etc) of the individual test, like below:
+```
+$ cat omp-mpi-forward_1_2_100_48.txt 
+Running problem size 48^3 per domain until completion
+Num processors: 1
+Num threads: 2
+Total number of elements: 110592 
+
+To run other sizes, use -s <integer>.
+To run a fixed number of iterations, use -i <integer>.
+To run a more or less balanced region set, use -b <integer>.
+To change the relative costs of regions, use -c <integer>.
+To print out progress, use -p
+To write an output file for VisIt, use -v
+See help (-h) for more options
+
+Run completed:
+   Problem size        =  48
+   MPI tasks           =  1
+   Iteration count     =  100
+   Final Origin Energy =  5.417664e+06
+   Testing Plane 0 of Energy Array on rank 0:
+        MaxAbsDiff   = 2.328306e-10
+        TotalAbsDiff = 1.139172e-09
+        MaxRelDiff   =         -nan
+
+Elapsed time         =          4 (s)
+Grind time (us/z/c)  = 0.36487352 (per dom)  ( 4.0352092 overall)
+FOM                  =  2740.6758 (z/s)
+```
+
+The use of a helper Python3 script `res.py` will create a `results.txt` file which will summarize all of the corresponding tests in that directory, with first the runtime for the original code, followed by the derivative code.
+```
+$ python3 res.py 
+$ cat results.txt 
+1,2,48,       4
+8,2,48,      14
+27,2,48,      43
+1,2,48,      37
+8,2,48,      80
+27,2,48, 2.2e+02
+```
 
 #### LULESH-CPP
-
-The following commands can be used to build all the executables.
-```console
-cd $HOME/enzyme-sc22/LULESH-CPP
-make -j
-# Binaries available in enzyme-sc22/LULESH-CPP
-# ser-single-forward.exe
-# ser-single-gradient.exe
-# omp-single-forward.exe
-# omp-single-gradient.exe
-# ompM-single-forward.exe
-# ompM-single-gradient.exe
-# ompOpt-single-forward.exe
-# ompOpt-single-gradient.exe
-```
 To run the evaluation:
 ```console
 cd $HOME/enzyme-sc22/LULESH-CPP/bench/
@@ -218,23 +328,6 @@ cd ../ser-mpi-weak-scaling
 ```
 #### LULESH-RAJA
 
-The following commands can be used to build all the executables.
-```console
-cd $HOME/enzyme-sc22/LULESH-RAJA
-mkdir build
-cd build
-cmake .. -G Ninja -DENABLE_OPENMP=ON -DLLVM_BUILD=$CLANG_PATH/.. -DENZYME=$ENZYME_PATH -DMPI_INCLUDE=/usr/lib/x86_64-linux-gnu/openmpi/include
-ninja
-# Binaries available in LULESH-RAJA/build/bin
-# lulesh-v2.0-RAJA-seq.exe
-# lulesh-v2.0-RAJA-seq-grad.exe
-# lulesh-v2.0-RAJA-omp.exe
-# lulesh-v2.0-RAJA-omp-gradient.exe
-# lulesh-v2.0-RAJA-ompOpt.exe
-# lulesh-v2.0-RAJA-ompOpt-gradient.exe
-# lulesh-v2.0-RAJA-seq-mpi.exe
-# lulesh-v2.0-RAJA-seq-mpi-grad.exe
-```
 To run the evaluation:
 ```console
 cd $HOME/enzyme-sc22/LULESH-RAJA/bench
@@ -259,20 +352,9 @@ cd ../ser-mpi-weak-scaling
 ./res.py
 # output of benchmark times in results.txt
 ```
+
 #### LULESH.jl
 
-You may then need to explicitly run various setup routines within
-Julia’s package manager. To fix the Julia setup for the test, perform
-the following to enter an interactive shell.
-```console
-cd $HOME/enzyme-sc22/LULESH.jl
-julia --project -e "import Pkg; Pkg.instantiate()"
-julia --project
-    julia> import MPI
-    julia> MPI.install_mpiexecjl(;destdir=".",force=true)
-# The `mpiexecjl` executable should now
-# exist in $HOME/enzyme-sc22/LULESH.jl
-```
 To run the evaluation:
 ```console
 cd $HOME/enzyme-sc22/LULESH.jl/bench/
@@ -285,19 +367,9 @@ cd ../ser-mpi-weak-scaling
 ./res.py
 # output of benchmark times in results.txt
 ```
+
 #### LULESH-CoDiPack
 
-The following commands can be used to build all the executables.
-```console
-cd $HOME/CODI-LULESH/lulesh-forward
-make
-# Binaries available in CODI-LULESH/lulesh-forward/
-# lulesh2.0
-cd CODI-LULESH/lulesh-gradient
-make
-# Binaries available in CODI-LULESH/lulesh-gradient/
-# lulesh2.0
-```
 To run the evaluation:
 ```console
 cd $HOME/CODI-LULESH/bench/
@@ -309,20 +381,8 @@ cd ../ser-mpi-weak-scaling
 ./script.py
 ./res.py
 ```
-#### BUDE
 
-The following commands can be used to build all the executables.
-```console
-cd $HOME/enzyme-sc22/BUDE/openmp
-make -j
-# Binaries available in enzyme-sc22/BUDE/openmp
-# ./ser-single-forward.exe
-# ./ser-single-gradient.exe
-# ./omp-single-forward.exe
-# ./omp-single-gradient.exe
-# ./ompOpt-single-forward.exe
-# ./ompOpt-single-gradient.exe
-```
+#### BUDE
 We have created a Python3 script for running all the executables and
 performing scaling analysis.
 ```console
@@ -336,14 +396,9 @@ cd ../ompOpt-single
 ./res.py
 # output of benchmark times in results.txt
 ```
+
 #### miniBUDE.jl
 
-The following commands can be used to build all the executables.
-```console
-cd $HOME/enzyme-sc22/BUDE/miniBUDE.jl/
-julia --project=Threaded -e "import Pkg; Pkg.instantiate()"
-#No executables are created
-```
 We have created a Python3 script for running all the executables and
 performing scaling analysis.
 ```console
