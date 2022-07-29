@@ -196,11 +196,11 @@ julia --project
 
 The following commands can be used to build all the CoDiPack versions of LULESH.
 ```console
-cd $HOME/CODI-LULESH/lulesh-forward
+cd $HOME/enzyme-sc22/CODI-LULESH/lulesh-forward
 make
 # Binaries available in CODI-LULESH/lulesh-forward/
 # lulesh2.0
-cd CODI-LULESH/lulesh-gradient
+cd $HOME/enzyme-sc22/CODI-LULESH/lulesh-gradient
 make
 # Binaries available in CODI-LULESH/lulesh-gradient/
 # lulesh2.0
@@ -371,7 +371,7 @@ cd ../ser-mpi-weak-scaling
 
 To run the evaluation:
 ```console
-cd $HOME/CODI-LULESH/bench/
+cd $HOME/enzyme-sc22/CODI-LULESH/bench/
 cd ser-mpi-strong-scaling
 ./script.py
 ./res.py
