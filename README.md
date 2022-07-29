@@ -41,7 +41,6 @@ We first obtain the code:
 cd $HOME
 git clone --recursive https://github.com/EnzymeAD/enzyme-sc22
 cd enzyme-sc22
-git checkout 8665560
 ```
 
 This repository contains submodules for the benchmarks and codes listed
