@@ -1,6 +1,8 @@
 FROM ubuntu:focal
 SHELL ["/bin/bash", "-c"]
 
+RUN groupadd -r myuser && useradd -r -g myuser myuser
+
 RUN apt-get update
 RUN apt-get -y install apt-utils
 RUN apt-get -y install tzdata --assume-yes
@@ -17,7 +19,7 @@ CMD ["echo", "Cloning Enzyme SC 22 Files"]
 WORKDIR /root
 RUN git clone --recursive https://github.com/EnzymeAD/enzyme-sc22
 WORKDIR /root/enzyme-sc22
-RUN git checkout ade41ef9
+RUN git checkout 8423baa
 
 #Install Julia
 WORKDIR /root
@@ -87,3 +89,7 @@ RUN ls /root/enzyme-sc22/BUDE/openmp/
 RUN ls /root/enzyme-sc22/BUDE/miniBUDE.jl/
 RUN ls /root/CODI-LULESH/lulesh-forward/
 RUN ls /root/CODI-LULESH/lulesh-gradient/
+
+#Setup a non root user
+RUN chown -hR myuser /root
+USER myuser
